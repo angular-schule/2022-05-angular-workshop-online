@@ -9,4 +9,13 @@ if (environment.production) {
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+.catch(err => console.error(err));
+
+
+/*
+// TypeScript Playground
+import { Customer } from 'ts-playground/customer';
+
+const myCustomer = new Customer(3);
+myCustomer.fooBar(3);
+*/
