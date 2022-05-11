@@ -10,12 +10,8 @@ export class BookComponent implements OnInit {
 
   @Input() book?: Book;
 
-  constructor() {
-    console.log('CTOR', this.book)
-  }
+  constructor() {}
 
-  ngOnInit(): void {
-    console.log('NGONINIT', this.book)
-  }
+  ngOnInit(): void {}
 
 }
