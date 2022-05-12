@@ -25,11 +25,32 @@ describe('BookRatingService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should rate up a book', () => {});
+  it('should rate up a book', () => {
+    // Arrange
+    book.rating = 3;
 
-  it('should rate down a book', () => {});
+    // Act
+    const ratedBook = service.rateUp(book);
 
-  it('should not rate higher than 5', () => {});
+    // Assert
+    expect(ratedBook.rating).toBe(4); // nicht: book.rating + 1
+  });
 
-  it('should not rate lower than 1', () => {});
+  it('should rate down a book', () => {
+    book.rating = 3;
+    const ratedBook = service.rateDown(book);
+    expect(ratedBook.rating).toBe(2);
+  });
+
+  it('should not rate higher than 5', () => {
+    book.rating = 5;
+    const ratedBook = service.rateUp(book);
+    expect(ratedBook.rating).toBe(5);
+  });
+
+  it('should not rate lower than 1', () => {
+    book.rating = 1;
+    const ratedBook = service.rateDown(book);
+    expect(ratedBook.rating).toBe(1);
+  });
 });
