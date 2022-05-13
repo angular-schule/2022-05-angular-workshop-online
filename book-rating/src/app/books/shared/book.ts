@@ -6,3 +6,8 @@ export interface Book {
   rating: number;
   price: number;
 }
+
+
+export function trackBook(index: number, item: Book) {
+  return item.isbn;
+}

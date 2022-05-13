@@ -15,7 +15,9 @@ export class BookComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // console.log('BC', this.book?.isbn);
+  }
 
   doRateUp() {
     this.rateUp.emit(this.book);

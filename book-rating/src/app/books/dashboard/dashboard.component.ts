@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Book } from '../shared/book';
+import { Book, trackBook } from '../shared/book';
 import { BookRatingService } from '../shared/book-rating.service';
 
 @Component({
@@ -61,5 +61,7 @@ export class DashboardComponent implements OnInit {
     // [1,2,3,4,5,6,7].filter(e => e > 3); // [4,5,6,7]
     // [1,2,3,4,5].map(e => e * 10) // [10, 20, 30, 40, 50]
   }
+
+  trackBook = trackBook;
 }
 
