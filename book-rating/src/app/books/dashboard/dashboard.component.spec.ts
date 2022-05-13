@@ -10,9 +10,9 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
 
-    const ratingMock: BookRatingService = {
+    const ratingMock: Partial<BookRatingService> = {
       rateUp: (b: Book) => b,
-      rateDown: (b: Book) => b,
+      rateDown: (b: Book) => b
     };
 
     await TestBed.configureTestingModule({
@@ -37,5 +37,25 @@ describe('DashboardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should call service.rateUp for doRateUp', () => {
+    // Arrange
+    const book: Book = {
+      isbn: '',
+      title: '',
+      description: '',
+      rating: 3,
+      price: 3
+    };
+
+    const rs = TestBed.inject(BookRatingService); // das ist eigentlich unser ratingMock
+    spyOn(rs, 'rateUp').and.callThrough(); // rateUp überwachen, aber trotzdem alte Methode im Hintergrund verwenden
+
+    // Act
+    component.doRateUp(book);
+
+    // Assert
+    expect(rs.rateUp).toHaveBeenCalledOnceWith(book);
   });
 });
