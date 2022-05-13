@@ -18,10 +18,10 @@ export class BooksRoutingModule { }
 TODO:
 - Weiterleitung ✅
 - (Wildcard) ✅
-- Links
-  - BC => Detailseite
-  - Detailseite => Dashboard
-- Detailseite
+- Links ✅
+  - BC => Detailseite ✅
+  - Detailseite => Dashboard ✅
+- Detailseite  ✅
   - ISBN aus der URL auslesen
   - HTTP
   - Buch anzeigen
