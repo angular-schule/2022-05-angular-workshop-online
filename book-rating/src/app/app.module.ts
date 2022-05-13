@@ -14,7 +14,8 @@ import { BooksModule } from './books/books.module';
     BrowserModule,
     AppRoutingModule,
     BooksModule,
-    HttpClientModule
+    HttpClientModule,
+    // RouterModule.forChild([{ path: '**', component: ErrorComponent }])
   ],
   providers: [],
   bootstrap: [AppComponent]
