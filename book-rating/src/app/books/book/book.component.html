@@ -11,6 +11,8 @@
     <p>{{ book.description }}</p>
     <p>Preis: {{ book.price | currency:'EUR' }}</p>
 
+    <!-- Autoren: <ng-container *ngFor="let a of book.authors; last as l">{{ a }}<ng-container *ngIf="!l">, </ng-container></ng-container>-->
+
     <button type="button" class="btn btn-green" (click)="doRateUp()"> + </button>
     <button type="button" class="btn btn-red" (click)="doRateDown()"> – </button>
 
