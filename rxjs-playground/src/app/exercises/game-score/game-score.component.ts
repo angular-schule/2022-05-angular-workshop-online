@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Subject, ReplaySubject, scan, reduce } from 'rxjs';
+import { Subject, ReplaySubject, scan, reduce, of, map, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'rxw-game-score',
@@ -20,6 +20,43 @@ export class GameScoreComponent {
      */
 
     /******************************/
+
+    this.score$.pipe(
+      scan((acc, item) => {
+        console.log({ acc, item });
+        return acc + item;
+      }, 0)
+    ).subscribe(score => {
+      this.currentScore = score;
+    });
+
+    // [1,2,3,4,5].reduce((acc, item) => acc + item, 0) // 15
+
+    /******************************/
+
+    // Exkurs: Redux-Pattern
+    const state$ = of(
+      'SETFRAMEWORKANGULAR',
+      'SETCITYBREMEN',
+      'SETNAMEFERDINAND', // { type: 'Set name', data: 'Ferdinand' }
+      'SETCITYHAMBURG'
+    ).pipe(
+      scan((state, msg) => {
+        switch (msg) {
+          case 'SETNAMEFERDINAND': return { ...state, name: 'Ferdinand', city: 'Leipzig' };
+          case 'SETFRAMEWORKANGULAR': return { ...state, framework: 'Angular' };
+          case 'SETCITYHAMBURG': return { ...state, city: 'Hamburg' };
+          case 'SETCITYSTUTTGART': return { ...state, city: 'Stuttgart' };
+          default: return state;
+        }
+      }, { name: 'Georg', city: 'München' })
+    );
+
+    const name$ = state$.pipe(
+      map(state => state.name),
+      distinctUntilChanged()
+    );
+    name$.subscribe(console.log)
 
 
     /******************************/
