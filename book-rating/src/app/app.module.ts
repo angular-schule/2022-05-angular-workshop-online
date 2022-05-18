@@ -5,6 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
+import { EffectsModule } from '@ngrx/effects';
 // import { BooksModule } from './books/books.module';
 
 @NgModule({
@@ -17,6 +21,9 @@ import { NavigationComponent } from './navigation/navigation.component';
     AppRoutingModule,
     // BooksModule,
     HttpClientModule,
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    EffectsModule.forRoot([]),
     // RouterModule.forChild([{ path: '**', component: ErrorComponent }])
   ],
   providers: [],
