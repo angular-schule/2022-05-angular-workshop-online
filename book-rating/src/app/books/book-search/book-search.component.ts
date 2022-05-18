@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, Observable, switchMap, tap } from 'rxjs';
+import { Book } from '../shared/book';
+import { BookStoreService } from '../shared/book-store.service';
 
 @Component({
   selector: 'br-book-search',
@@ -10,14 +12,30 @@ import { Observable } from 'rxjs';
 export class BookSearchComponent implements OnInit {
 
   searchControl = new FormControl('');
+  results$: Observable<Book[]>;
+  isLoading = false;
 
-  constructor() {
+  constructor(private bs: BookStoreService) {
     const input$: Observable<string> = this.searchControl.valueChanges;
 
-    // TODO: Suche implementieren!
-    input$.subscribe(e => {
-      console.log(e);
-    });
+    this.results$ = input$.pipe(
+      filter(term => term.length >= 3),
+      debounceTime(400),
+      distinctUntilChanged(),
+      tap(() => this.isLoading = true),
+      switchMap(term => this.bs.search(term)),
+      tap(() => this.isLoading = false),
+    );
+
+
+    /* TODO:
+    - Suchbegriff mindestens 3 Zeichen lang (mit RxJS!)
+    - erst abschicken, wenn NUtzer für bestimmte Zeit die Finger stillgehalten hat
+    - für jeden Suchbegriff HTTP-Request machen
+    - Ergebnisse (ganz einfach!)
+    - AsyncPipe
+    - Zusatzaufgabe: Ladeindikator (z.B. mit tap)
+    */
   }
 
   ngOnInit(): void {
