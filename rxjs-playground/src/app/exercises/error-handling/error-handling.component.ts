@@ -24,6 +24,8 @@ export class ErrorHandlingComponent {
 
   start() {
     this.es.randomError().pipe(
+      // retry(5),
+      // retry({ count: 5, delay: 2000 }),
       // retry({ count: 5, delay: () => timer(2000) }),
       catchError(err => {
         // Fehler weiterwerfen

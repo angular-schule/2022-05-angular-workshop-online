@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, of, from, timer, interval, ReplaySubject, map, filter } from 'rxjs';
+import { Observable, of, from, timer, interval, ReplaySubject, map, filter, Subscriber, Observer } from 'rxjs';
 
 @Component({
   selector: 'rxw-creating',
@@ -26,9 +26,12 @@ export class CreatingComponent {
 
     // of('Angular', 'Vue', 'React')
     // from(['A', 'B', 'C'])
+    // from(myPromise)
+    // from(myStream$)
     // interval(1000) // ---0---1---2---3---4--- ...
     // timer(3000) // ---------0|
     // timer(3000, 1000) // ---------0---1---2---3---4--- ...
+    // timer(0, 1000) // 0---1---2---3---4--- ...
 
     timer(0, 1000).pipe(
       map(e => e * 3),
@@ -43,7 +46,7 @@ export class CreatingComponent {
     /******************************/
 
 
-    function producer(sub: any) {
+    function producer(sub: Subscriber<number>) {
       const result = Math.random();
       sub.next(result);
       sub.next(6);
@@ -52,6 +55,7 @@ export class CreatingComponent {
         // cberr('FEHLER!');
         console.log('TIMER');
         sub.next(Math.random());
+        sub.complete();
       }, 1000);
 
       // Teardown Logic
@@ -60,7 +64,7 @@ export class CreatingComponent {
       };
     }
 
-    const obs = {
+    const obs: Partial<Observer<number>> = {
       next: (e: any) => console.log(e),
       // error: (err: any) => console.error(err),
       complete: () => console.log('FERTIG!')
@@ -68,12 +72,20 @@ export class CreatingComponent {
 
     // producer(obs);
     // Finnische Notation $
-    // const myObs$ = new Observable(producer);
-    // const sub = myObs$.subscribe(obs);
+    const myObs$ = new Observable(producer);
+    const sub = myObs$.subscribe(obs);
 
     setTimeout(() => {
       // sub.unsubscribe();
     }, 5000)
+
+    // of(1,2,3)
+    const myStream$ = new Observable<number>(sub => {
+      sub.next(1);
+      sub.next(2);
+      sub.next(3);
+      sub.complete();
+    });
 
 
     /*class MyObservable {
